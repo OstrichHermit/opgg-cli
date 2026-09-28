@@ -21,26 +21,13 @@ Op.gg data from your command line: League of Legends / TFT / Valorant.
 
 要求 Python 3.10+。
 
-**从源码安装（当前推荐，尚未发布 PyPI）：**
-
 ```bash
 git clone https://github.com/OstrichHermit/opgg-cli
 cd opgg-cli
 pip install .
 ```
 
-**以下方式即将发布（Coming soon）：**
-
-```bash
-# 推荐
-pipx install opgg-cli
-
-# 或
-uv tool install opgg-cli
-
-# 或
-pip install opgg-cli
-```
+开发模式用 `pip install -e .`（改动源码即时生效）。PyPI 发布：Coming soon。
 
 安装后即可使用 `opgg` 命令：
 

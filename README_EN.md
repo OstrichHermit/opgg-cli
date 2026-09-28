@@ -21,26 +21,13 @@ Query OP.GG esports data straight from the terminal — no API key, no browser, 
 
 Requires Python 3.10+.
 
-**From source (currently recommended; PyPI release coming soon):**
-
 ```bash
 git clone https://github.com/OstrichHermit/opgg-cli
 cd opgg-cli
 pip install .
 ```
 
-**Coming soon:**
-
-```bash
-# Recommended
-pipx install opgg-cli
-
-# Or
-uv tool install opgg-cli
-
-# Or
-pip install opgg-cli
-```
+For development, use `pip install -e .` (source changes take effect immediately). PyPI release: coming soon.
 
 After installing, the `opgg` command is available:
 
