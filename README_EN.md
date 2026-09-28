@@ -29,6 +29,14 @@ pip install .
 
 For development, use `pip install -e .` (source changes take effect immediately). PyPI release: coming soon.
 
+### Install as an Agent Skill (optional)
+
+This repo ships with an Agent Skill (`skills/opgg-cli/SKILL.md`). Copy it into your AI agent's skills directory so the agent picks up the tool automatically. Claude Code example:
+
+```bash
+cp -r skills/opgg-cli ~/.claude/skills/opgg-cli
+```
+
 After installing, the `opgg` command is available:
 
 ```bash
