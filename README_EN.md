@@ -8,7 +8,7 @@ Query OP.GG esports data straight from the terminal — no API key, no browser, 
 
 ## Features
 
-- **All 29 commands**: League of Legends (17), TFT (6), Valorant (6)
+- **All 30 commands**: League of Legends (18, incl. fuzzy search), TFT (6), Valorant (6)
 - **Beautiful tables**: default output is curated, readable terminal tables
 - **Machine-readable**: `--json` prints structured JSON for scripts and AI agents; `--raw` prints the untouched response
 - **No API key**: talks directly to the official OP.GG MCP endpoint; all protocol handling is built in
@@ -50,6 +50,9 @@ opgg --help
 ## Quick start
 
 ```bash
+# Fuzzy-search a summoner (no #tagLine needed)
+opgg lol search "ARE YOU OK"
+
 # Summoner profile: rank, tier, LP, win rate
 opgg lol profile "Hide on bush#KR1" kr
 
@@ -92,10 +95,11 @@ $ opgg valorant leaderboard kr
 
 ## Command reference
 
-### League of Legends (`lol`, 17 commands)
+### League of Legends (`lol`, 18 commands)
 
 | Command | Description | Key options |
 | --- | --- | --- |
+| `opgg lol search <query>` | Fuzzy-search summoners without a `#tagLine`; returns Riot ID / level / tier / LP | `--region` (web region code, lowercase e.g. `kr`, `na`, default `kr`). This command uses OP.GG's public web data source; all others use the official MCP endpoint |
 | `opgg lol profile <riot_id> <region>` | Summoner profile: rank, tier, LP, win rate and champion pool | `riot_id` as `gameName#tagLine`; region e.g. `KR`, `NA`, `EUW` |
 | `opgg lol matches <riot_id> <region>` | Recent match history with per-game stats | `--limit` (server accepts 2-20) |
 | `opgg lol game-detail <region> <game_id> <created_at>` | Full match detail: teams, participants, builds and bans | `--focus-riot-id` flags the target participant; `created_at` is an ISO-8601 timestamp |
@@ -158,7 +162,7 @@ Every command supports:
 ## Data source & disclaimer
 
 - This is an **unofficial** tool. It is not affiliated with, endorsed by, or sponsored by Riot Games or OP.GG.
-- All data comes live from OP.GG (via its official public MCP endpoint); accuracy and availability are provided by OP.GG.
+- All data comes live from OP.GG: the `search` command uses OP.GG's public web data source, everything else goes through its official public MCP endpoint; accuracy and availability are provided by OP.GG.
 - Be reasonable: the CLI already throttles between requests — avoid high-frequency batch hammering.
 - Released under the [MIT License](LICENSE).
 

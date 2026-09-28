@@ -8,7 +8,7 @@
 
 ## 特性
 
-- **29 个命令全覆盖**：英雄联盟 17 个、云顶之弈 6 个、无畏契约 6 个
+- **30 个命令全覆盖**：英雄联盟 18 个（含模糊搜索）、云顶之弈 6 个、无畏契约 6 个
 - **精美表格**：默认输出为精心挑选列的终端表格，一眼可读
 - **机器可读**：`--json` 输出结构化 JSON，适合脚本和 AI agent；`--raw` 输出原始响应
 - **无需 API key**：直连 OP.GG 官方 MCP 端点，协议对接已内置
@@ -50,6 +50,9 @@ opgg --help
 ## 快速上手
 
 ```bash
+# 模糊搜索召唤师（不需要 #tagLine）
+opgg lol search "ARE YOU OK"
+
 # 查询召唤师档案：段位、LP、胜率
 opgg lol profile "Hide on bush#KR1" kr
 
@@ -92,10 +95,11 @@ $ opgg valorant leaderboard kr
 
 ## 命令总览
 
-### 英雄联盟（lol，17 个命令）
+### 英雄联盟（lol，18 个命令）
 
 | 命令 | 说明 | 关键参数 |
 | --- | --- | --- |
+| `opgg lol search <query>` | 模糊搜索召唤师，不需要 `#tagLine`，返回 Riot ID / 等级 / 段位 / LP | `--region`（网页区域码，小写如 `kr`、`na`，默认 `kr`）。本命令走 OP.GG 网页公开数据源，其余命令走官方 MCP 端点 |
 | `opgg lol profile <riot_id> <region>` | 召唤师档案：段位、LP、胜率、英雄池 | `riot_id` 格式 `gameName#tagLine`；region 如 `KR`、`NA`、`EUW` |
 | `opgg lol matches <riot_id> <region>` | 最近对局历史与逐场数据 | `--limit` 上限（服务端接受 2-20） |
 | `opgg lol game-detail <region> <game_id> <created_at>` | 单场对局详情：双方队伍、选手、出装、禁用 | `--focus-riot-id` 标记目标选手；`created_at` 为 ISO-8601 时间戳 |
@@ -158,7 +162,7 @@ $ opgg valorant leaderboard kr
 ## 数据来源与免责声明
 
 - 本项目为**非官方**工具，与 Riot Games、OP.GG 均无隶属关系，也未获得任何授权或背书。
-- 所有数据实时来自 OP.GG（通过其官方公开 MCP 端点），数据的准确性与可用性由 OP.GG 提供。
+- 所有数据实时来自 OP.GG：`search` 命令走 OP.GG 网页公开数据源，其余命令通过其官方公开 MCP 端点获取，数据的准确性与可用性由 OP.GG 提供。
 - 请合理使用：命令之间存在速率限制保护，请勿高频批量请求。
 - 本项目基于 [MIT License](LICENSE) 开源。
 

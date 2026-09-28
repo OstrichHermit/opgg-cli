@@ -7,7 +7,8 @@ from typing import Any, Callable, Optional
 import typer
 from rich.table import Table
 
-from ..output import common_options
+from ..output import common_options, render_json, render_raw
+from ..search import OpggSearchClient, OpggSearchError, extract_rsc_text, parse_summoners
 from ._common import (
     FIELDS_OPT as _FIELDS_OPT,
     as_rows as _as_rows,
@@ -44,6 +45,11 @@ _LANG_TOOLS = frozenset(
 
 REGION_HELP = "Server region code, e.g. KR, NA, EUW, EUNE, BR, JP, OCE, LAN, LAS, SEA."
 CHAMPION_HELP = "Champion name, e.g. ANNIE, MISS_FORTUNE (spaces become underscores)."
+SEARCH_RAW_OPT = typer.Option(
+    False,
+    "--raw",
+    help="Print the extracted Next.js RSC payload text from the search page (debug).",
+)
 
 
 class GameMode(str, Enum):
@@ -510,6 +516,65 @@ def _render_standings_table(parsed: Any) -> None:
             _num(row.get("point")),
         )
     console.print(table)
+
+
+def _render_search_table(results: list[dict]) -> None:
+    table = Table(title=f"Search ({len(results)} summoners)", header_style="bold cyan")
+    table.add_column("Riot ID", overflow="fold")
+    table.add_column("Level", justify="right")
+    table.add_column("Tier", overflow="fold")
+    table.add_column("LP", justify="right")
+    for row in results:
+        if not isinstance(row, dict):
+            continue
+        tier_info = row.get("solo_tier_info") or {}
+        if not isinstance(tier_info, dict):
+            tier_info = {}
+        riot_id = "#".join(str(x) for x in (row.get("game_name"), row.get("tagline")) if x)
+        tier = tier_info.get("tier")
+        table.add_row(
+            riot_id,
+            _num(row.get("level")),
+            str(tier) if tier else "UNRANKED",
+            _num(tier_info.get("lp")),
+        )
+    console.print(table)
+
+
+@app.command("search")
+def search(
+    query: str = typer.Argument(..., help="Fuzzy summoner name, no '#tagLine' required, e.g. 'ARE YOU OK' or 'Faker'."),
+    region: str = typer.Option(
+        "kr", "--region", help="Website region code in lowercase, e.g. kr, na, euw, eune, br, jp."
+    ),
+    as_json: bool = _JSON_OPT,
+    as_raw: bool = SEARCH_RAW_OPT,
+    lang: str = _LANG_OPT,
+) -> None:
+    """Fuzzy-search summoners via the OP.GG website data source (not the official MCP API).
+
+    The query does not need a '#tagLine'. region is the website's lowercase region code
+    (kr, na, euw, eune, br, jp, ...). PUUIDs are included in --json output.
+    """
+    region_code = region.strip().lower() or "kr"
+    try:
+        with OpggSearchClient() as client:
+            html = client.fetch(query, region_code)
+        rsc_text = extract_rsc_text(html)
+        results = parse_summoners(rsc_text)
+    except OpggSearchError as exc:
+        error(str(exc))
+        raise typer.Exit(code=1)
+    if as_raw:
+        render_raw(rsc_text)
+        return
+    if not results:
+        console.print(f"0 results for '{query}'")
+        return
+    if as_json:
+        render_json(results)
+        return
+    _render_search_table(results)
 
 
 @app.command("profile")
