@@ -1,8 +1,10 @@
-[English](README_EN.md) | 简体中文
-
 # opgg-cli
 
 **Op.gg 数据的命令行工具：英雄联盟 / 云顶之弈 / 无畏契约**
+
+Op.gg data from your command line: League of Legends / TFT / Valorant.
+
+[English](README_EN.md) | 简体中文
 
 在终端里直接查询 OP.GG 的对局数据——无需 API key，无需浏览器，无需了解 MCP 协议。
 

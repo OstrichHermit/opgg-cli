@@ -1,8 +1,10 @@
-English | [简体中文](README.md)
-
 # opgg-cli
 
 **Op.gg data from your command line: League of Legends / TFT / Valorant**
+
+Op.gg 数据的命令行工具：英雄联盟 / 云顶之弈 / 无畏契约
+
+English | [简体中文](README.md)
 
 Query OP.GG esports data straight from the terminal — no API key, no browser, no MCP knowledge required.
 
