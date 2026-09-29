@@ -17,6 +17,10 @@ Op.gg data from your command line: League of Legends / TFT / Valorant.
 - **字段裁剪**：`--fields` 按服务端封闭集裁剪响应，显著减小输出体积
 - **多语言**：`--lang` 支持本地化数据（en_US / zh_CN / ko_KR 等）
 
+## 持续维护
+
+本项目处于活跃维护状态：OP.GG 官方 MCP 端点或数据接口发生变更时，会及时跟进同步迭代，保证命令持续可用。若上游接口变更导致异常，欢迎提 issue。
+
 ## 安装
 
 要求 Python 3.10+。

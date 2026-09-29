@@ -17,6 +17,10 @@ Query OP.GG esports data straight from the terminal — no API key, no browser, 
 - **Field trimming**: `--fields` trims responses against the server-side closed set to shrink output
 - **Localization**: `--lang` for localized data (en_US / zh_CN / ko_KR and more)
 
+## Actively maintained
+
+This project is actively maintained: whenever OP.GG updates its official MCP endpoint or data interfaces, this CLI follows up with synchronized updates to keep every command working. If an upstream change breaks something, please open an issue.
+
 ## Install
 
 Requires Python 3.10+.
